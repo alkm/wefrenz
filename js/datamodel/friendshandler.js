@@ -4,6 +4,7 @@ var userInfo = require('./model/userinfo');
 module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
+	
 	app.post('/api/getProfileInfo/', function(req, res) {		
 		// create a friend info, information comes from AJAX request from Angular
 		userInfo.findOne({_id : req.body.profileid}, function(err, infos) {
