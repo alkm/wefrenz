@@ -1,0 +1,11 @@
+@media (min-width: 768px) {
+	.navbar-center {
+		margin-left: 5%;
+	}
+}
+@media (max-width: 768px) {
+	body{
+		overflow-x: auto;
+		width: 768px;
+	}
+}

@@ -1,0 +1,7 @@
+<div class="row req-template-row no-margin">
+	<div class="pull-left">
+		<img class="profile-pic-icon" ng-src="{{info.profilepic.imageBuffer}}"/>
+	</div>
+	<div class="pull-left req-name"><span>{{info.fullname}}<span></div>
+	<div class="pull-right"><input type="submit" id="{{info._id}}" class="btn btn-primary default-btn medium-btn" name="submit" value="Confirm" ng-click="onConfirmFriendBtnClick($event)"/><input type="submit" id="{{info._id}}" class="btn btn-primary default-btn medium-btn" name="submit" value="Cancel"/></div>
+</div>

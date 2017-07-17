@@ -1,0 +1,42 @@
+<div id="appsMain" class="contentView col-md-12">
+	<div id="left-view" class="col-md-4"  ng-contoller="AppListController">
+        <div class="list-top-bar panel panel-primary">
+            <div class="btn-toolbar panel-heading" role="toolbar">
+
+            </div>
+            <div class="appcenter-toolbar-tall">
+                <div class="appcenter-toolbar-line" id="appcenter-app-filter">
+                    <div class="app-filter-btn btn-group open">
+                        <button type="button" class="btn btn-mini dropdown-toggle" data-toggle="dropdown" ng-click="fetchApps('all')">All</button>
+                    </div>
+                    <div class="app-filter-btn btn-group android">
+                        <button type="button" class="btn btn-mini dropdown-toggle" data-toggle="dropdown" ng-click="fetchApps('android')"><span class="platform-indicator-android"></span> Android</button>
+                    </div>
+                    <div class="app-filter-btn btn-group ios">
+                        <button type="button" class="btn btn-mini dropdown-toggle" data-toggle="dropdown" ng-click="fetchApps('ios')" ><span class="platform-indicator-ios"></span> iOS</button>
+                    </div>
+                    <div class="app-filter-btn btn-group blackberry">
+                        <button type="button" class="btn btn-mini dropdown-toggle" data-toggle="dropdown" ng-click="fetchApps('blackberry')" ><span class="platform-indicator-blackberry"></span> BlackBerry</button>
+                    </div>
+                </div>
+                <div class="appcenter-toolbar-line searchbar">
+                    <input id="appcenter-search" type="search" placeholder="Search Apps" ng-model="appsearch.appname">
+                </div>
+            </div>
+        </div>
+        <div id="list-container">
+            <ul class="apps-list reset media-list">
+                <li ng-repeat="app in filteredApps" ng-click="selectApp(app.appid)" ng-class="{active: app.selected}" class="app-item media animate-repeat">
+                   <img class="media-image" ng-src="images/{{app.imagepath}}">
+                   <div class="media-body">
+                        <h4 class="media-heading"><span class="platform-indicator-{{app.ostype}}"></span><span class="badge pull-right">1</span><span class="wrappedText">{{app.appname}}</span></h4>
+                       <span class="appVersion"><b>{{app.reltype}}</b> | {{app.appversion}}</span>
+                       <div class="detail-text"><span class="type">{{app.subtitle}}</span>
+                          <span class="app-subtitle"></span></div>
+                       </div>
+                </li>
+            </ul>
+        </div>
+	</div>
+    <div class="details-view col-md-8" ui-view></div>
+</div>

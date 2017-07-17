@@ -1,0 +1,29 @@
+@media(max-width: 620px){
+	.crop-contents, .crop-contents canvas{
+		width: 400px;
+	}
+}
+
+@media(max-width: 480px){
+	.crop-contents, .crop-contents canvas{
+		width: 380px;
+	}
+}
+
+@media(max-width: 420px){
+	.crop-contents, .crop-contents canvas{
+		width: 300px;
+	}
+}
+
+@media(max-width: 380px){
+	.crop-contents, .crop-contents canvas{
+		width: 270px;
+	}
+}
+
+@media(max-width: 280px){
+	.crop-contents, .crop-contents canvas{
+		width: 250px;
+	}
+}

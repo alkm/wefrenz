@@ -1,0 +1,57 @@
+[
+    {
+        "appid": "Samsung000111",
+        "appname": "Samsung Galaxy Grand",
+        "model":"Samsung Model 0011",
+        "appversion": "8.1.00054",
+        "ostype": "android",
+        "minosver": "2.0",
+        "reltype": "Production",
+        "rating": "4.75",
+        "imagepath": "",
+        "reviews": {
+            "count": "14500",
+            "usercomments": [
+                {
+                    "reviewer": "John Smith",
+                    "stars": "4.75",
+                    "comments": "Nice to have Device."
+                }
+            ]
+        },
+        "specs":{
+            "processor":"Quard Core",
+            "speed":"1.2 GHz",
+            "ram":"8 GB Internal",
+            "sdcard":"Yes",
+            "bluetooth":"Yes"
+        }
+    },{
+        "appid": "Apple00111",
+        "appname": "iPhone 6",
+        "model":"Apple Model 0011",
+        "appversion": "6",
+        "ostype": "iOS",
+        "minosver": ".0",
+        "reltype": "Production",
+        "rating": "5.0",
+        "imagepath": "",
+        "reviews": {
+            "count": "14500",
+            "usercomments": [
+                {
+                    "reviewer": "John Smith",
+                    "stars": "3.33",
+                    "comments": "Nice to have Device."
+                }
+            ]
+        },
+        "specs": {
+            "processor": "Quard Core II",
+            "speed": "1.4 GHz",
+            "ram": "16 GB Internal",
+            "sdcard": "Yes",
+            "bluetooth": "Yes"
+        }
+    }
+]

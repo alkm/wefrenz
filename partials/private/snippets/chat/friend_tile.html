@@ -1,0 +1,7 @@
+<div class="req-template-row">
+	<div class="pull-left"><img class="profile-pic-icon" ng-src="{{info.profilepicpath || profilePicPath}}"/></div>
+	<div class="pull-left">
+		<div class="pull-right"><input type="submit" id="{{info._id}}" class="btn btn-primary default-btn" name="submit" value="Friend"/></div>
+		<div clsss="text-right"><span>{{info.fullname | limitTo : nameLimit}}<span></div>
+	</div>
+</div>

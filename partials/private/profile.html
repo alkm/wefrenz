@@ -1,0 +1,65 @@
+<nav class="navbar navbar-default" role="navigation">
+		<div ng-include="'partials/private/privatenavbar.html'"></div>
+</nav>
+<div class="container">
+	<div class="col-md-12">
+		<div class="other-profile-card">
+			<div class="profile-card-contents">
+				<a>
+					<img class="profile-pic" ng-src="{{otherProfilePic.imageBuffer}}" ng-style="{'width' : otherProfilePicWidth+'px', 'height' : otherProfilePicHeight+'px'}"/>
+				</a>
+				<div class="profile-name">
+					<span class="bold-fonts" ng-bind="name"></span>
+					<h6 class="no-margin" ng-bind="email"></h6>
+				</div> 
+			</div>
+		</div>
+		<div class="wall-pic pull-left col-lg-12 col-md-12 col-sm-12 col-xs-12">
+			<div class="row user-operantional-area">
+				<div class="pull-left"></div>
+				<div class="pull-right">
+					<div class="row btn-div-container" ng-show="isProfileBtnShow" id="friendsBtnContainer">
+						<div class="pull-left btn-div" id="addFriendBtn" data="{{profileIdOnAddBtn}}" ng-click="onAddBtnClick($event)">
+							<input type="submit" class="btn btn-primary" name="submit" value="Add"><i class="fa fa-plus-square-o"></i>
+						</div>
+						<div class="pull-left btn-div" id="pendingFriendBtn" style="display : none;" data="{{profileIdOnAddBtn}}">
+							<input type="submit" class="btn btn-primary" name="submit" value="Request Pending"><i class="fa fa-plus-square-o"></i>
+						</div>
+						<div class="pull-left btn-div" id="respondFriendBtn" style="display : none;" data="{{profileIdOnAddBtn}}" ng-click="onConfirmFriendBtnClick($event);">
+							<input type="submit" class="btn btn-primary" name="submit" value="Respond Request"><i class="fa fa-plus-square-o"></i>
+						</div>
+						<div class="pull-left btn-div" id="confirmedFriendBtn" style="display : none;" data="{{profileID}}">
+							<input type="submit" class="btn btn-primary" name="submit" value="Friend"><i class="fa fa-plus-square-o"></i>
+						</div>
+						<div class="pull-left btn-div" id="msgBtn">
+							<input type="submit" class="btn btn-primary" name="submit" value="Message"><i class="fa fa-pencil-square-o"></i></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="live-feed col-lg-6 col-md-6 col-sm-6 col-xs-6">
+		<div class="live-feed-contents surround-border">
+			<ul class="tab-navigator">
+				<li>
+					<a ui-sref="widget({widgetId:6})">Feed</a>
+				</li>
+				<li>
+					<a ui-sref="widget({widgetId:6})">Photos</a>
+				</li>
+				<li>
+					<a ui-sref="widget({widgetId:6})">Music</a>
+				</li>
+				<li>
+					<a ui-sref="widget({widgetId:6})">Video</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="notidication-area col-lg-3 col-md-3 col-sm-3 col-xs-3">
+	
+	</div>
+	<div ng-controller="ChatController">
+	</div>
+</div>

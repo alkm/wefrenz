@@ -1,0 +1,72 @@
+<div>
+    <div id="item-details" class="panel panel-primary">
+    	<div class="btn-toolbar  appcenter-toolbar panel-heading" role="toolbar">
+
+    	</div>
+        <div id="appcenter-apps-details-container" class="panel-body">
+            <div data-appid="" class="col-md-12">
+                <img class="media-image icon class-md-2" ng-src="images/{{app.imagepath}}">
+                <div class="media-body col-md-10">
+                    <h4 class="media-heading">{{app.appname}}</h4>
+                </div>
+                <div class="app-info">
+                    <div class="col-md-12">
+                    	<label class="col-md-3 col-md-offset-1">Device Model:</label>
+                    	<div class="fieldControl col-md-6">{{app.model}}</div>
+                    </div>
+                    <div class="col-md-12">
+                    	<label class="col-md-3 col-md-offset-1">Platform</label>
+                     	<div class="fieldControl col-md-6">{{app.ostype}}</div>
+                    </div>
+                </div>
+                        
+	        </div>
+    	    <div id="appcenter-apps-details" class="row"></div>
+        </div>
+    </div>
+	<div id="app-version-detail" class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">Specifications</h3>
+			</div>
+		<div class="content panel-body">
+			<div class="col-md-12">
+				<div class="btn-toolbar pull-right" role="toolbar">
+				</div>
+			</div>
+			<div class="info col-md-12" style="">
+					<div class="col-md-1">
+						<img class="media-image icon" src="images/Android.png"></div>
+						<div class="col-md-10">
+							<div class="field col-md-12">
+								<label class="col-md-4">Processor:</label>
+								<div class="fieldControl col-md-8">{{app.specs.processor}}</div>
+							</div>
+							<div class="field col-md-12">
+								<label class="col-md-4">Speed:</label>
+								<div class="fieldControl col-md-8">{{app.specs.speed}}</div>
+							</div>
+							<div class="field col-md-12">
+								<label class="col-md-4">RAM:</label>
+								<div class="fieldControl col-md-8">{{app.specs.ram}}</div>
+							</div>
+							<div class="field col-md-12">
+								<label class="col-md-4">SD Card:</label>
+								<div class="fieldControl col-md-8">{{app.specs.sdcard}}</div>
+							</div>
+                            <div class="field col-md-12">
+								<label class="col-md-4">Bluetooth:</label>
+								<div class="fieldControl col-md-8">{{app.specs.bluetooth}}</div>
+							</div>
+							<div class="notes"></div>
+						</div>
+				</div>
+			<div class="row more-info">
+				 <span class="see-more col-md-12 " ng-click="onSeeMoreClick()">{{seeMoreText}}</span>
+				 <div class="info-details"  ng-show="seeMore">
+				  <appcenter-review rating="app.rating" reviews="app.reviews"></appcenter-review>
+				 </div>
+			</div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,113 @@
+<!--
+<div class="review-main">
+    <div class="review-toolbar">
+        <span class="reviewheader"><h3>Customer Reviews</h3></span>
+        <span class="pull-right"><button class="btn" ng-click="writeReview()">Write a Review</button></span>
+    </div>
+    <div class="reviewpane">
+        <div class="ratingpane">
+            <div class="score-container">
+               <div class="score">{{getRating(rating)}}</div>
+                <div class="score-container-star-rating">
+                    <div class="small-star star-rating-non-editable-container">
+                        <div class="current-rating">
+                            <img ng-src="images/rating-{{getRating(rating)}}.png" />
+                        </div>
+                    </div>
+                    </div> <div class="reviews-stats">
+                      <span class="reviewers-small"></span>
+                      <span class="reviews-num">{{lstReviews.count}}</span> total
+                    </div>
+            </div>
+        </div>
+        <div class="cfpane" ng-switch="listmode">
+           <div class="listpane" ng-switch-default>
+                 <ul class="reviewlist list-group">
+                    <li class="reviewitem list-group-item" ng-repeat="item in lstReviews.usercomments">
+                        <div class="reviewdesc">{{item.comments}}</div>
+                        <span class="reviewcreator">
+                            {{item.reviewer}}
+                        </span>
+                        <span class="reviewstars">
+                            <img ng-src="images/rating-small-{{getRating(item.stars)}}.png"/>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="addpane" ng-switch-when="false">
+                <div>
+                    <span class="ratingtext">Rating: </span>
+                    <span acreview-stars rating-value="defRating" max="5"></span>
+                </div>
+                <div>
+                    <span class="ratingtext nextcol">Review: </span>
+                    <textarea id="txt-review-rating" rows="5" cols="60"></textarea>
+                </div>
+                <div>
+                    <span class="actionbar"><button id="btn_review_cancel" class="btn" ng-click="cancelAdd()">Cancel</button><button id="btn_review_save" class="btn" ng-click="saveReview()">Save</button></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+-->
+<div class="col-md-10">
+	<h4> Customer Reviews </h4>
+</div>
+<div class="col-md-2">
+	<button class="btn btn-primary" ng-click="writeReview()">Write a Review</button>
+</div>
+<div class="col-md-12">&nbsp;</div>
+<div class="review-pane col-md-12">
+	<!-- Rating Pane -->
+	<div class="col-md-3">
+	  <div class="score-container alert alert-info">
+	 	<div class="score">{{getRating(rating)}}</div>
+		<div class="score-container-star-rating">
+			<div class="small-star star-rating-non-editable-container">
+				<div class="current-rating">
+					<img ng-src="images/rating-{{getRating(rating)}}.png" />
+				</div>
+			</div>
+		</div> 
+		<div class="reviews-stats">
+			  <span class="reviewers-small"></span>
+			  <span class="reviews-num">{{lstReviews.count}}</span> total
+		</div>
+	  </div>
+	</div>
+	
+	<!-- Review list -->
+	    <div class="col-md-9" ng-switch="listmode">
+           <div class="listpane" ng-switch-default>
+                 <ul class="reviewlist list-group">
+                    <li class="reviewitem list-group-item" ng-repeat="item in lstReviews.usercomments">
+                        <div class="reviewdesc">{{item.comments}}</div>
+                        <span class="reviewcreator">
+                            {{item.reviewer}}
+                        </span>
+                        <span class="reviewstars">
+                            <img ng-src="images/rating-small-{{getRating(item.stars)}}.png"/>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <div class="addpane" ng-switch-when="false">
+                <div class="col-md-12">
+                    <span class="ratingtext rating col-md-2">Rating: </span>
+                    <span acreview-stars rating-value="defRating" max="5"></span>
+                </div>
+                <div class="col-md-12">
+                    <span class="ratingtext nextcol rating col-md-2">Review: </span>
+                    <textarea id="txt-review-rating" rows="5" cols="60"></textarea>
+                </div>
+                <div class="col-md-10 col-md-offset-2">
+                    <span class="actionbar btn-toolbar" role="toolbar">                    
+                    	<button id="btn_review_save" class="btn btn-primary" ng-click="saveReview()"><span class="glyphicon glyphicon-floppy-disk"></span> Save</button>
+						<button id="btn_review_cancel" class="btn" ng-click="cancelAdd()">Cancel</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+</div>

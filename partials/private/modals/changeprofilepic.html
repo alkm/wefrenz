@@ -1,0 +1,45 @@
+<div>
+		<div class="modal-header">
+			<h3 class="modal-title sky-blue-fonts">Change Profile Pic!</h3>
+		</div>
+		<div class="modal-body inline-block colw100">
+			<div class="pull-left profilepic-panel colw100">
+				<div class="row">
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<div class="pic-medium">
+							<img class="profile-pic" ng-src="{{profilePic}}" ng-style="{'width' : previewPicWidth+'px', 'height' : previewPicHeight+'px'}"/>
+						</div>
+					</div>
+					<div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" ng-show="isCoppedImgShow">				
+						<div>Cropped Image:</div>
+						<div id="croppedImg" ng-show="cropper.croppedImage!=null"><img ng-src="{{cropper.croppedImage}}" /></div>
+					</div>
+				</div>
+				<input type="file" id="profilePicUpload" img-cropper-fileread image="cropper.sourceImage" ng-show="isFINShow" />
+				<div class="colw100">
+					<i class="fa fa-cloud-upload" title="Change Profile Pic" ng-click="openImgOption();"></i>
+					<i class="fa fa-camera ng-scope" title="Take Picture" ng-click="takeProfilePic($event)"></i>
+				</div>
+				<div class="auto-margin crop-contents auto-margin" ng-show="isCropShow">
+					<canvas degrees="angle" rotate-image width="500" height="300" id="canvas" image-cropper image="cropper.sourceImage" cropped-image="cropper.croppedImage" crop-width="250" crop-height="180"></canvas>
+<!-- 					<a ng-click="rotate('-90')">Rotate Left</a>
+					<a ng-click="rotate('90')">Rotate Right</a> -->
+					<div class="done-btn"><button class="btn btn-primary" type="button" ng-click="saveCroppedImg()" style="cursor: initial;">done</button></div>
+				</div>
+				<div class="auto-margin crop-contents auto-margin" ng-show="isProfilePicCamShow">
+					<video id="profilePicVideo" autoplay></video>
+					<canvas id="profilePicCanvas"></canvas>
+					<div class="done-btn"><button class="btn btn-primary" type="button" ng-click="saveCamImg()" style="cursor: initial;">done</button></div>
+				</div>
+			</div>
+			<div class="col-md-12" id="progressBarDiv" style="display: none;">
+				<div class="progress progress-striped active">
+					<div style="width: 0%" class="bar" id="profilePicProgressBar"></div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+			<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+		</div>
+</div>
