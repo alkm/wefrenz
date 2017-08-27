@@ -10,18 +10,18 @@
     "watch-css": "nodemon -e scss -x \"npm run build-css\""
   },
   "dependencies": {
-    "easyrtc": "*",
-    "express": "*",
+    "body-parser": "*",
     "bunyan": "*",
     "bunyan-middleware": "*",
-    "routes": "*",
-    "mongoose": "*",
-    "node-eventer": "*",
-    "body-parser": "*",
-    "serve-static": "*",
     "client-sessions": "*",
-    "socket.io": "*",
-    "node-sass": "*"
+    "easyrtc": "*",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.8",
+    "node-eventer": "*",
+    "node-sass": "*",
+    "routes": "*",
+    "serve-static": "*",
+    "socket.io": "*"
   },
   "license": "BSD2",
   "engines": {
