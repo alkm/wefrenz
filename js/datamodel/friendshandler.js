@@ -1,5 +1,5 @@
-var friendRelationInfo = require('./model/friendsrelationship');
-var userInfo = require('./model/userinfo');
+var friendRelationInfo = require('/model/friendsrelationship');
+var userInfo = require('/model/userinfo');
 
 module.exports = function(app) {
 
