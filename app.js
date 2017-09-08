@@ -22,7 +22,6 @@ app.use(clientSessions({
   secret: '0GBlJZ9EKBt2Zbi2flRPvztczCewBxXK' // set this to a long random string!
 }));
 
-
 // configuration ===============================================================
 //mongoose.connect(database.url); 	// connect to mongoDB database on modulus.io
 mongoose.createConnection(database.url, function(err){
