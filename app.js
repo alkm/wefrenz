@@ -31,7 +31,7 @@ mongoose.createConnection(database.url, function(err){
 	} else{
 		console.log("Connected to mongodb!");
 	}
-})
+});
 	
 	//app.listen(3000)
 	var io, socketServer, rtc;
