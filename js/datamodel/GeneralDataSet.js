@@ -1,4 +1,4 @@
-var userInfo = require('./datamodel/UserInfo');
+var userInfo = require('./model/userinfo');
 
 module.exports = function(app) {
 
