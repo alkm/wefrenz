@@ -22,6 +22,7 @@ app.use(clientSessions({
   secret: '0GBlJZ9EKBt2Zbi2flRPvztczCewBxXK' // set this to a long random string!
 }));
 
+
 // configuration ===============================================================
 //mongoose.connect(database.url); 	// connect to mongoDB database on modulus.io
 mongoose.createConnection(database.url, function(err){
@@ -51,17 +52,19 @@ mongoose.createConnection(database.url, function(err){
 	  key: fs.readFileSync('./key.pem'),
 	  cert: fs.readFileSync('./cert.pem')
 	}
-	const server = https.createServer(httpsOptions, app).listen(port, () => {
+	/*const server = https.createServer(httpsOptions, app).listen(port, () => {
 	  	console.log('server running at ' + port)
-		io = require("socket.io").listen(server);
-		socketServer = io.listen(server, {"log level":1});
-		// Start EasyRTC server
-		rtc = easyrtc.listen(app, socketServer);
 
-		io.sockets.on('connection', function(socket){//Similar to document.ready when the socket initialized
-			socket.on('ON_SOCKET_INIT', function(data){
-				console.log(data);
-			});
+	});*/
+	const server = https.createServer(httpsOptions, app).listen(port);
+	io = require("socket.io").listen(server);
+	socketServer = io.listen(server, {"log level":1});
+	// Start EasyRTC server
+	rtc = easyrtc.listen(app, socketServer);
+
+	io.sockets.on('connection', function(socket){//Similar to document.ready when the socket initialized
+		socket.on('ON_SOCKET_INIT', function(data){
+			console.log(data);
 		});
 	});
 
@@ -86,7 +89,6 @@ mongoose.createConnection(database.url, function(err){
 	    	});
 	    });
 	}
-
 	setUpSSLServer();*/
 
 
