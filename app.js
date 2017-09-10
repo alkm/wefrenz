@@ -1,5 +1,5 @@
 //var express = require('express')
-const express = require('express');
+var express = require('express');
 var serveStatic = require('serve-static')
 //var app = express()						// create our app w/ express
 var mongoose = require('mongoose'); 				// mongoose for mongodb
@@ -11,12 +11,12 @@ var bodyParser = require('body-parser');
 //var fs = require('fs');
 var easyrtc = require("easyrtc"); // EasyRTC external module
 //var https = require('https');
-const app = express();
+var app = express();
 // app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 //app.use(bodyParser.urlencoded({limit: '50mb'}));
-const clientSessions = require("client-sessions");
+var clientSessions = require("client-sessions");
 app.use(clientSessions({
   cookieName: 'mySession', // cookie name dictates the key name added to the request object
   secret: '0GBlJZ9EKBt2Zbi2flRPvztczCewBxXK' // set this to a long random string!
@@ -38,9 +38,9 @@ mongoose.createConnection(database.url, function(err){
 	var io, socketServer, rtc;
 	//var httpsOptions = {};
 
-	const https = require('https');
-	const fs = require('fs');
-	const port = 3000;
+	var https = require('https');
+	var fs = require('fs');
+	var port = 3000;
 
 	/*app.get('/', (req, res) => {
 	  res.send('WORKING!')
@@ -48,7 +48,7 @@ mongoose.createConnection(database.url, function(err){
 
 	app.use(serveStatic(__dirname + '/'));
 
-	const httpsOptions = {
+	var httpsOptions = {
 	  key: fs.readFileSync('./key.pem'),
 	  cert: fs.readFileSync('./cert.pem')
 	}
@@ -56,7 +56,7 @@ mongoose.createConnection(database.url, function(err){
 	  	console.log('server running at ' + port)
 
 	});*/
-	const server = https.createServer(httpsOptions, app).listen(port);
+	var server = https.createServer(httpsOptions, app).listen(port);
 	io = require("socket.io").listen(server);
 	socketServer = io.listen(server, {"log level":1});
 	// Start EasyRTC server
