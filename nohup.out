@@ -1,0 +1,15 @@
+npm WARN package.json webrefs@0.1.6 No README.md file found!
+
+> webrefs@0.1.6 start /home/wefrenz/app/wefrenz
+> node app.js
+
+`open()` is deprecated in mongoose >= 4.11.0, use `openUri()` instead, or set the `useMongoClient` option if using `connect()` or `createConnection()`. See http://mongoosejs.com/docs/connections.html#use-mongo-client
+info    - EasyRTC: Starting EasyRTC Server (v1.0.15) on Node (v0.10.4)
+{ name: 'MongoError',
+  message: 'failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED]' }
+info    - EasyRTC: EasyRTC Server Ready For Connections (v1.0.15)
+`open()` is deprecated in mongoose >= 4.11.0, use `openUri()` instead, or set the `useMongoClient` option if using `connect()` or `createConnection()`. See http://mongoosejs.com/docs/connections.html#use-mongo-client
+info    - EasyRTC: Starting EasyRTC Server (v1.0.15) on Node (v0.10.4)
+{ name: 'MongoError',
+  message: 'failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED]' }
+info    - EasyRTC: EasyRTC Server Ready For Connections (v1.0.15)
