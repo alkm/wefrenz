@@ -98,8 +98,11 @@ module.exports = function(app) {
 		});
 	});
 	app.post('/api/logInInfo', function(req, res) {
+		console.log('1'+userInfo);
 		userInfo.collection.ensureIndex({fullname: "text"}, function(error) {});
+		console.log('2'+signInInfo);
 		signInInfo.findOne({username: req.body.logininfo.email}, function(err, users){
+		console.log('3');
 			if(err){
 				res.send(err);
 			}else{
