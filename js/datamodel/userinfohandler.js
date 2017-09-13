@@ -1,5 +1,5 @@
-var signInInfo = require('./model/signininfo');
-var userInfo = require('./model/userinfo');
+var signInInfo = require('./model/signininfo.js');
+var userInfo = require('./model/userinfo.js');
 var fs = require('fs');
 module.exports = function(app) {
 	// api ---------------------------------------------------------------------
@@ -98,37 +98,39 @@ module.exports = function(app) {
 		});
 	});
 	app.post('/api/logInInfo', function(req, res) {
-		console.log('1'+userInfo);
 		userInfo.collection.ensureIndex({fullname: "text"}, function(error) {});
-		console.log('2'+signInInfo);
-		signInInfo.findOne({username: req.body.logininfo.email}, function(err, users){
-		console.log('3');
-			if(err){
-				res.send(err);
-			}else{
-				if(users == null){
-					res.json({"status": "failure", "message": "Invalid username"});
+		console.log('*****'+req.body.logininfo.email);
+		try{
+			signInInfo.findOne({username: req.body.logininfo.email}, function(err, users){
+				if(err){
+					res.send(err);
 				}else{
-					if(users.password == req.body.logininfo.password){
-						userInfo.findOne({username: req.body.logininfo.email}, function(err, info){
-							if(err){
-								console.log(err);
-							}else{
-								//req.mySession.username = info.username;
-								//req.mySession.userid = info._id;
-								res.json({"status": "success","message": "Welcome "+info.fullname, "info": info});
-							}
+					if(users == null){
+						res.json({"status": "failure", "message": "Invalid username"});
+					}else{
+						if(users.password == req.body.logininfo.password){
+							userInfo.findOne({username: req.body.logininfo.email}, function(err, info){
+								if(err){
+									console.log(err);
+								}else{
+									//req.mySession.username = info.username;
+									//req.mySession.userid = info._id;
+									res.json({"status": "success","message": "Welcome "+info.fullname, "info": info});
+								}
+								
+							});
 							
-						});
-						
-					}
-					else{
+						}
+						else{
 
-						res.json({"status": "failure", "message": "Wrong Password"});
+							res.json({"status": "failure", "message": "Wrong Password"});
+						}
 					}
 				}
-			}
 
-		});
+			});
+		}catch(err){
+			console.log('gotcha'+err);
+		}
 	});
 }

@@ -15,8 +15,8 @@
     "bunyan-middleware": "*",
     "client-sessions": "*",
     "easyrtc": "*",
-    "express": "~4.x",
-    "mongoose": "~4.x",
+    "express": "*",
+    "mongoose": "*",
     "node-eventer": "*",
     "node-sass": "*",
     "routes": "*",
@@ -25,6 +25,6 @@
   },
   "license": "BSD2",
   "engines": {
-    "node": "*"
+    "node": ">=5.3.0"
   }
 }
