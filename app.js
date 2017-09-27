@@ -40,7 +40,7 @@ mongoose.connect(database.url, { useMongoClient: true }, function(err){
 
 	var https = require('https');
 	var fs = require('fs');
-	var port = 8080;
+	var port = 3000;
 
 	/*app.get('/', (req, res) => {
 	  res.send('WORKING!')
