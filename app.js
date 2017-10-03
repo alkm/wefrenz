@@ -49,8 +49,8 @@ mongoose.connect(database.url, { useMongoClient: true }, function(err){
 	app.use(serveStatic(__dirname + '/'));
 
 	var httpsOptions = {
-	  key: fs.readFileSync('./key.pem'),
-	  cert: fs.readFileSync('./cert.pem')
+	  key: fs.readFileSync('./private.key'),
+	  cert: fs.readFileSync('./certificate.crt')
 	}
 	/*const server = https.createServer(httpsOptions, app).listen(port, () => {
 	  	console.log('server running at ' + port)
