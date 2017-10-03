@@ -6,6 +6,12 @@ define(['angularAMD',  'angular-ui-router','bootstrap', 'ui-bootstrap'], functio
     /** Configuring the app path and state using angular-ui-route
      *
      */
+
+     app.config(['$httpProvider', function($httpProvider) {
+  
+        $httpProvider.defaults.useXDomain = true;
+        delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    }]);
     app.config(function($stateProvider,$urlRouterProvider)
     {
         $urlRouterProvider.otherwise("/public");

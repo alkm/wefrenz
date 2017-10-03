@@ -6,7 +6,7 @@ define(['app'], function (app) {
                 return $http.get('/api/logInInfo');
             },
             create : function(logInInfo) {
-                return $http.post('/api/logInInfo', logInInfo);
+                return $http.post('https://localhost:3000/api/logInInfo', logInInfo);
             },
             delete : function(id) {
                 return $http.delete('/api/logInInfo/' + id);

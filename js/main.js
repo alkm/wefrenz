@@ -1,6 +1,7 @@
 require.config({
 
     baseUrl: "js/",
+    waitSeconds: 200,
     
 	// alias libraries paths
     paths: {
