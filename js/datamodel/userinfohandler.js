@@ -52,16 +52,17 @@ module.exports = function(app) {
 		});
 	});
 	
-	app.post('/api/signUpInfo', function(req, res) {
-		signInInfo.findOne({username: req.body.signupinfo.email}, function(err, users){
+	app.post('/api/signUp', function(req, res) {
+		console.log('req.body.email'+req.body.email);
+		signInInfo.findOne({username: req.body.email}, function(err, users){
 			if(err){
 				res.send(err);
 			}else{
 				if(users == null){
 					// create a user, information comes from AJAX request from Angular
 					signInInfo.create({
-						username : req.body.signupinfo.email,
-						password: req.body.signupinfo.password,
+						username : req.body.email,
+						password: req.body.password,
 						done : false
 					}, function(err, users) {
 						if (err){
@@ -72,8 +73,8 @@ module.exports = function(app) {
 							profilePicObj.profilePicDimension = '75x75';
 							profilePicObj.imageBuffer = 'assets/images/defaultprofilepic.jpg';
 						    userInfo.create({
-								username : req.body.signupinfo.email,
-								fullname : req.body.signupinfo.fullName,
+								username : req.body.email,
+								fullname : req.body.fullName,
 								profilepic : profilePicObj,
 								wallpicpath : "",
 								wallpicpos : "",
@@ -97,32 +98,30 @@ module.exports = function(app) {
 
 		});
 	});
-	app.post('/api/logInInfo', function(req, res) {
+	app.post('/api/logIn', function(req, res) {
+		ssn = req.session;
 		userInfo.collection.ensureIndex({fullname: "text"}, function(error) {});
-		console.log('*****'+req.body.logininfo.email);
 		try{
-			signInInfo.findOne({username: req.body.logininfo.email}, function(err, users){
+			signInInfo.findOne({username: req.body.email}, function(err, users){
 				if(err){
 					res.send(err);
 				}else{
 					if(users == null){
 						res.json({"status": "failure", "message": "Invalid username"});
 					}else{
-						if(users.password == req.body.logininfo.password){
-							userInfo.findOne({username: req.body.logininfo.email}, function(err, info){
+						if(users.password == req.body.password){
+							userInfo.findOne({username: req.body.email}, function(err, info){
 								if(err){
 									console.log(err);
 								}else{
 									//req.mySession.username = info.username;
 									//req.mySession.userid = info._id;
+									ssn.email = info.username;
 									res.json({"status": "success","message": "Welcome "+info.fullname, "info": info});
 								}
-								
 							});
-							
 						}
 						else{
-
 							res.json({"status": "failure", "message": "Wrong Password"});
 						}
 					}

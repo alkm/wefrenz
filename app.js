@@ -15,13 +15,16 @@ var app = express();
 // app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-//app.use(bodyParser.urlencoded({limit: '50mb'}));
-var clientSessions = require("client-sessions");
+var session = require('express-session');
+var ssn ;
+app.use(session({secret:'0GBlJZ9EKBt2Zbi2flRPvztczCewBxXK', resave: true, saveUninitialized: true}));
+
+/*var clientSessions = require("client-sessions");
 app.use(clientSessions({
   cookieName: 'mySession', // cookie name dictates the key name added to the request object
   secret: '0GBlJZ9EKBt2Zbi2flRPvztczCewBxXK' // set this to a long random string!
 }));
-
+*/
 
 // configuration ===============================================================
 //mongoose.connect(database.url); 	// connect to mongoDB database on modulus.io

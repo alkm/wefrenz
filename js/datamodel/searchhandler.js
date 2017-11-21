@@ -3,8 +3,8 @@ module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
 
-	app.post('/api/trySearch/', function(req, res) {
-		var searchInfo = req.body.searchString ;
+	app.post('/api/querySearch/', function(req, res) {
+		var searchInfo = req.body.searchParam ;
 		userInfo.find(
 	        { $text : { $search : searchInfo } }
 	    )
