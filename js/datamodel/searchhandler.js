@@ -4,7 +4,7 @@ module.exports = function(app) {
 	// api ---------------------------------------------------------------------
 
 	app.post('/api/querySearch/', function(req, res) {
-		var searchInfo = req.body.searchParam ;
+		var searchInfo = req.body.searchparam ;
 		userInfo.find(
 	        { $text : { $search : searchInfo } }
 	    )

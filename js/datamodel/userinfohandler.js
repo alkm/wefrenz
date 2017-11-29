@@ -74,7 +74,7 @@ module.exports = function(app) {
 							profilePicObj.imageBuffer = 'assets/images/defaultprofilepic.jpg';
 						    userInfo.create({
 								username : req.body.email,
-								fullname : req.body.fullName,
+								fullname : req.body.fullname,
 								profilepic : profilePicObj,
 								wallpicpath : "",
 								wallpicpos : "",

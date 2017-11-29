@@ -8,7 +8,7 @@ var storage = multer.diskStorage({
     cb(null, 'media/images/coverpics/')
   },
   filename: function (req, file, cb) {
-  	uploadedCoverPicPath = 'coverpic_'+ssn.email+'_'+Date.now()+path.extname(file.originalname);
+  	uploadedCoverPicPath = 'coverpic_'+Date.now()+path.extname(file.originalname);
     cb(null, uploadedCoverPicPath); //Appending extension
   }
 });
@@ -20,17 +20,34 @@ module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
 	app.post('/api/uploadEncodedProfilePic', function(req, res) {
-		var profileId = req.body.profilepicinfo.id;
+		try{
+			if(ssn === undefined){
+				res.json({"status": "sessionExpired", "message": "Please Login"});
+				return;
+			}
+		}catch(err){
+			res.json({"status": "sessionExpired", "message": "Please Login"});
+			return;
+		}
+		
 		var profilePicObj = {};
-		profilePicObj.previewPicDimension = req.body.profilepicinfo.previewPicDimension;
-		profilePicObj.profilePicDimension = req.body.profilepicinfo.profilePicDimension;
-		profilePicObj.imageBuffer = req.body.profilepicinfo.profilePicEncoded;
-		userInfo.update({_id: profileId}, {$set: {profilepic: profilePicObj}}, function(error, info){
+		profilePicObj.previewPicDimension = req.body.previewpicdimension;
+		profilePicObj.profilePicDimension = req.body.profilepicdimension;
+		profilePicObj.imageBuffer = req.body.imagebuffer;
+
+		
+		userInfo.update({username: ssn.email}, {$set: {profilepic: profilePicObj}}, function(error, info){
 			if(error){
 				console.log("Error"+error);
 				res.json({"status": "failure", "message": "Failed to update profile pic now, please try again later."});
 			}else{
-				res.json({"status": "success", "message": "Profile Pic Updated Successfully", "profilepic": profilePicObj});
+				userInfo.findOne({username: ssn.email}, function(err, info){
+					if(err){
+						console.log(err);
+					}else{
+						res.json({"status": "success", "message": "Profile Pic Updated Successfully", "info": info});
+					}
+				});
 			}
 		});
 		
@@ -39,20 +56,56 @@ module.exports = function(app) {
     //Cover Pic Upload
 	app.post('/api/uploadCoverPic', upload.single('uploadfile'), (req, res) => {
 		var coverPicPos = req.body.coverpicpos;
+		try{
+			if(ssn === undefined){
+				res.json({"status": "sessionExpired", "message": "Please Login"});
+				return;
+			}
+		}catch(err){
+			res.json({"status": "sessionExpired", "message": "Please Login"});
+			return;
+		}
+
 		uploadedCoverPicPath = 'media/images/coverpics/'+uploadedCoverPicPath;
-		userInfo.update({username: ssn.email}, {$set: {wallpicpath: uploadedCoverPicPath, wallpicpos: coverPicPos}}, function(error, info){
-			if(error){
-				res.json({"status": "failure", "message": "Failed to update profile pic now, please try again later."});
+		userInfo.findOne({username: ssn.email}, function(err, info){
+			if(err){
+				res.send(err);
 			}else{
-				res.json({"status": "success", "message": "Cover Pic Uploaded Successfully", "wallpicpath": uploadedCoverPicPath});
+				if(info.wallpicpath !== ''){
+					if (fs.existsSync(info.wallpicpath)) {
+					    // Do something
+					    console.log('cover pic exists');
+					    fs.unlinkSync(info.wallpicpath);
+					}else{
+						console.log('cover pic does not exist');
+					}
+				}
+
+				//res.json({"status": "success","message": "This User "+info.fullname+ " already Exists", "info": info});
+				userInfo.update({username: ssn.email}, {$set: {wallpicpath: uploadedCoverPicPath, wallpicpos: coverPicPos}}, function(error, info){
+					if(error){
+						res.json({"status": "failure", "message": "Failed to update profile pic now, please try again later."});
+					}else{
+						res.json({"status": "success", "message": "Cover Pic Uploaded Successfully", "wallpicpath": uploadedCoverPicPath});
+					}
+				});
 			}
 		});
+
 	});
 
 
 	app.post('/api/saveCoverPicPos',  function(req, res){
 		var coverPicPos = req.body.coverpicpos;
-		console.log('****((('+req.body.coverpicpos);
+		try{
+			if(ssn === undefined){
+				res.json({"status": "sessionExpired", "message": "Please Login"});
+				return;
+			}
+		}catch(err){
+			res.json({"status": "sessionExpired", "message": "Please Login"});
+			return;
+		}
 		userInfo.update({username: ssn.email}, {$set: {wallpicpos: coverPicPos}}, function(error, info){
 			if(error){
 				res.json({"status": "failure", "message": "Failed to update cover pic position now, please try again later."});
