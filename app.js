@@ -12,9 +12,9 @@ var bodyParser = require('body-parser');
 var easyrtc = require("easyrtc"); // EasyRTC external module
 //var https = require('https');
 var app = express();
-//app.use(bodyParser.json({limit: '50mb'}));
+
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
-app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.json({limit: '50mb'}));
 
 var session = require('express-session');
 var ssn ;

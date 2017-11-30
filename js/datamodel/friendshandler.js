@@ -42,15 +42,14 @@ module.exports = function(app) {
 	app.post('/api/getFriendInfo/', function(req, res) {	
 		//This is happenig in profile page
 		// check a friend info, information comes from AJAX request from Angular
-		console.log("Info got from node"+req.body.friendInfo.userId+"//////////"+req.body.friendInfo.friendID);
-		friendRelationInfo.findOne({friendid : req.body.friendInfo.userId , userid : req.body.friendInfo.friendId} 
+		friendRelationInfo.findOne({friendid : req.body.userid , userid : req.body.friendid} 
 			, function(err, infos) {
 			if (err){
 				console.log("Error Fetching info"+err);
 				res.send(err);
 			}else{
 				if(infos != null){
-					if(infos.requester != req.body.friendInfo.userId){
+					if(infos.requester != req.body.userid){
 						var obj = {};
 						obj.agent = "responder";
 						obj.status = infos.requeststatus;
@@ -62,14 +61,14 @@ module.exports = function(app) {
 						res.send(obj);
 					}
 				}else{
-					friendRelationInfo.findOne({userid : req.body.friendInfo.userId , friendid : req.body.friendInfo.friendId}
+					friendRelationInfo.findOne({userid : req.body.userid , friendid : req.body.friendid}
 					, function(err, infos) {
 						if (err){
 							console.log("Error Fetching info"+err);
 							res.send(err);
 						}else{
 							if(infos != null){
-								if(infos.requester != req.body.friendInfo.userId){
+								if(infos.requester != req.body.userid){
 									var obj = {};
 									obj.agent = "responder";
 									obj.status = infos.requeststatus;
