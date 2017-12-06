@@ -13,12 +13,19 @@ var easyrtc = require("easyrtc"); // EasyRTC external module
 //var https = require('https');
 var app = express();
 
+var chatBuddiesConnected = [];
+var chatClients = {};
+var chatBuddies = [];
+// list of socket ids
+var clients = [];
+var usedSockets = {};
+
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 app.use(bodyParser.json({limit: '50mb'}));
 
 var session = require('express-session');
 var ssn ;
-app.use(session({secret:'0GBlJZ9EKBt2Zbi2flRPvztczCewBxXK', resave: true, saveUninitialized: true}));
+app.use(session({secret:'0GBlJZ9EKBt2Zbi2flRPvztczCewBxXK', resave: false, saveUninitialized: true}));
 
 /*var clientSessions = require("client-sessions");
 app.use(clientSessions({
@@ -39,10 +46,10 @@ mongoose.connect(database.url, { useMongoClient: true }, function(err){
 })
 	
 	//app.listen(3000)
-	var io, socketServer, rtc;
 	//var httpsOptions = {};
 
-	var https = require('https');
+	//var https = require('https');
+	var http = require('http');
 	var fs = require('fs');
 	var port = 3000;
 
@@ -60,17 +67,80 @@ mongoose.connect(database.url, { useMongoClient: true }, function(err){
 	  	console.log('server running at ' + port)
 
 	});*/
-	var server = https.createServer(httpsOptions, app).listen(port);
-	io = require("socket.io").listen(server);
-	socketServer = io.listen(server, {"log level":1});
+	//var server = https.createServer(httpsOptions, app).listen(port);
+	var server = http.createServer(app).listen(port);
+	var io = require("socket.io").listen(server);
+	var socketServer = io.listen(server, {"log level":1});
 	// Start EasyRTC server
-	rtc = easyrtc.listen(app, socketServer);
+	var rtc = easyrtc.listen(app, socketServer);
 
+	//Handling the chat on socket
 	io.sockets.on('connection', function(socket){//Similar to document.ready when the socket initialized
 		socket.on('ON_SOCKET_INIT', function(data){
-			console.log(data);
+			socket.userid = data.userid;
+			handleActiveUsers(socket, data.userid);
+		});
+		socket.on('ON_SEND_MSG', function(data){
+			//Emitting the info back to client 
+			//io.sockets.emit("ON_NEW_MSG", data);//To all users connected in socket
+			
+			var receiverSocket = usedSockets[data.chatid];
+			console.log('dreceiverSocket'+receiverSocket);
+			try{
+				receiverSocket.emit("ON_NEW_MSG", data);//To specific user to whom message is sent
+			}catch(err){
+				console.log('socket error');
+			}
+		});
+
+
+		socket.on('disconnect', function(data){
+			handleClientDisconnected(socket, socket.userid);
+			console.log(socket.userid+' is disconnected');
+			//Set user appearance status in db
+			/*userInfo.update({_id : socket.userid}, { $set: {appearance: "offline"}}, function(error, docs){
+				if(error){
+					console.log("Error"+error);
+				}else{
+					io.sockets.emit("UPDATE_CHAT_LIST", "");
+				}
+			});*/
 		});
 	});
+
+	function handleActiveUsers(socket, userid){
+		//Saving all the users connected in socket
+		for(var i = 0; i < chatBuddiesConnected.length ; i++){
+			if(userid === chatBuddiesConnected[i]){
+				console.log("Looks like you are already connected");
+				return;
+			}
+		}
+		
+		chatBuddiesConnected.push(userid);
+		chatClients[socket.userid] = userid;
+		usedSockets[userid] = socket;
+	}
+	function handleClientDisconnected(socket, userid){
+		console.log("disconnected");
+		console.log(chatClients[socket.userid]);
+		chatBuddiesConnected.splice(0,chatClients[socket.userid]); 
+		var indx = chatBuddiesConnected.indexOf(chatClients[socket.userid]);
+		if(indx != -1){
+			chatBuddiesConnected.splice(indx, 1);
+		} 
+		
+		delete usedSockets[userid];
+		for(var i in chatClients){
+			console.log(i);
+		}
+
+		delete chatClients[socket.userid];
+		for(var i in chatClients){
+			console.log(i);
+		}
+		console.log(chatBuddiesConnected);
+	}
 
 	/*function setUpSSLServer() {
 	    fs.readFile("./key.pem", "utf8", function(err, data) {
@@ -100,7 +170,7 @@ mongoose.connect(database.url, { useMongoClient: true }, function(err){
 app.use(function(req, res, next) {
    res.header("Access-Control-Allow-Origin", "*");
    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-   res.header("Access-Control-Allow-Headers", "X-Requested-With,Content-Type,Cache-Control");
+   res.header("Access-Control-Allow-Headers", "X-Requested-With, authorization, Content-Type,Cache-Control");
    if (req.method === 'OPTIONS') {
     res.statusCode = 204;
     return res.end();
@@ -116,7 +186,7 @@ app.use(function(req, res, next) {
     require('./js/datamodel/profilehandler.js')(app);
 	require('./js/datamodel/friendshandler.js')(app);
 	require('./js/datamodel/searchhandler.js')(app);
-	//require('./js/datamodel/chathandler.js')(app);
+	require('./js/datamodel/chathandler.js')(app);
     
 // require('./model/FeedHandler.js')(app);
 // require('./model/AlbumHandler.js')(app);

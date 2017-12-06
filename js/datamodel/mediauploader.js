@@ -20,7 +20,7 @@ module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
 	app.post('/api/uploadEncodedProfilePic', function(req, res) {
-		try{
+		/*try{
 			if(ssn === undefined){
 				res.json({"status": "sessionExpired", "message": "Please Login"});
 				return;
@@ -29,19 +29,22 @@ module.exports = function(app) {
 			res.json({"status": "sessionExpired", "message": "Please Login"});
 			return;
 		}
-		
+		*/
+
 		var profilePicObj = {};
 		profilePicObj.previewPicDimension = req.body.previewpicdimension;
 		profilePicObj.profilePicDimension = req.body.profilepicdimension;
 		profilePicObj.imageBuffer = req.body.imagebuffer;
+		var userId = req.body.userid;
+		console.log("req.body.userid;"+req.body.userid);
 
 		
-		userInfo.update({username: ssn.email}, {$set: {profilepic: profilePicObj}}, function(error, info){
+		userInfo.update({username: userId}, {$set: {profilepic: profilePicObj}}, function(error, info){
 			if(error){
 				console.log("Error"+error);
 				res.json({"status": "failure", "message": "Failed to update profile pic now, please try again later."});
 			}else{
-				userInfo.findOne({username: ssn.email}, function(err, info){
+				userInfo.findOne({username: userId}, function(err, info){
 					if(err){
 						console.log(err);
 					}else{
@@ -55,8 +58,9 @@ module.exports = function(app) {
 
     //Cover Pic Upload
 	app.post('/api/uploadCoverPic', upload.single('uploadfile'), (req, res) => {
+		var userId = req.body.userid;
 		var coverPicPos = req.body.coverpicpos;
-		try{
+		/*try{
 			if(ssn === undefined){
 				res.json({"status": "sessionExpired", "message": "Please Login"});
 				return;
@@ -64,10 +68,10 @@ module.exports = function(app) {
 		}catch(err){
 			res.json({"status": "sessionExpired", "message": "Please Login"});
 			return;
-		}
+		}*/
 
 		uploadedCoverPicPath = 'media/images/coverpics/'+uploadedCoverPicPath;
-		userInfo.findOne({username: ssn.email}, function(err, info){
+		userInfo.findOne({username: userId}, function(err, info){
 			if(err){
 				res.send(err);
 			}else{
@@ -82,7 +86,7 @@ module.exports = function(app) {
 				}
 
 				//res.json({"status": "success","message": "This User "+info.fullname+ " already Exists", "info": info});
-				userInfo.update({username: ssn.email}, {$set: {wallpicpath: uploadedCoverPicPath, wallpicpos: coverPicPos}}, function(error, info){
+				userInfo.update({username: userId}, {$set: {wallpicpath: uploadedCoverPicPath, wallpicpos: coverPicPos}}, function(error, info){
 					if(error){
 						res.json({"status": "failure", "message": "Failed to update profile pic now, please try again later."});
 					}else{
@@ -97,6 +101,8 @@ module.exports = function(app) {
 
 	app.post('/api/saveCoverPicPos',  function(req, res){
 		var coverPicPos = req.body.coverpicpos;
+		var userId = req.body.userid;
+		var userId 
 		try{
 			if(ssn === undefined){
 				res.json({"status": "sessionExpired", "message": "Please Login"});
@@ -106,7 +112,7 @@ module.exports = function(app) {
 			res.json({"status": "sessionExpired", "message": "Please Login"});
 			return;
 		}
-		userInfo.update({username: ssn.email}, {$set: {wallpicpos: coverPicPos}}, function(error, info){
+		userInfo.update({username: userId}, {$set: {wallpicpos: coverPicPos}}, function(error, info){
 			if(error){
 				res.json({"status": "failure", "message": "Failed to update cover pic position now, please try again later."});
 			}else{

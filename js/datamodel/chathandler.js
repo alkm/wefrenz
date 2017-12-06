@@ -6,28 +6,29 @@ var events = require('events');
 var util = require('util');
 
 // maps socket.id to user's nickname
-var chatClients = {};
-var chatBuddies = [];
+//var chatClients = {};
+//var chatBuddies = [];
 // list of socket ids
-var clients = [];
-var usedSockets = {};
-var chatBuddiesConnected = [];
+//var clients = [];
+//var usedSockets = {};
+//var chatBuddiesConnected = [];
 
-  io.sockets.on('connection', function(socket){//Similar to document.ready when the socket initialized
+  /*io.sockets.on('connection', function(socket){//Similar to document.ready when the socket initialized
 	socket.on('ON_SOCKET_INIT', function(data){
 		console.log('>>>>wow......'+data._id);
 		socket.userid = data._id;
 		handleActiveUsers(socket, data._id);
 		//Set user appearance status in db
 		userInfo.update({_id : data._id}, { $set: {appearance: "online"}}, function(error, docs){
-			if(error){
-				console.log("Error"+error);
-			}else{
+				if(error){
+					console.log("Error"+error);
+				}else{
 				io.sockets.emit("UPDATE_CHAT_LIST", "");
 				console.log('update chat List');
-			}
+				}
+			});
 		});
-	})
+	});
 
 	socket.on('ON_SEND_MSG', function(data){
 	//Emitting the info back to client 
@@ -128,27 +129,52 @@ function showActiveUsers(socket){
   }
   //socket.emit('names', activeNames);
   console.log(activeNames);
-}
+}*/
 module.exports = function(app) {
 
 	// api ---------------------------------------------------------------------
 	app.post('/api/getChatBuddyList/', function(req, res) {	
 		// Confirm friend and changing the status
 		// Getting all the confirmed friends
-		console.log('>>?????>>>>'+req.body.userid);
+		//console.log('>>?????>>>>------'+req.session.username);
+		/*try{
+			if(!ssn.username){
+				res.json({"status": "sessionExpired", "message": "Please Login"});
+				return;
+			}
+		}catch(err){
+			res.json({"status": "sessionExpired", "message": "Please Login"});
+			return;
+		}*/
 		friendRelationInfo.find({requeststatus : "confirmed", $or: [ { userid: req.body.userid }, { friendid: req.body.userid }]}, function(error, infos){
+			var username = req.body.userid;
 			if(error){
 				console.log("Error"+error);
 			}else{
-
-				res.send(infos);
+				var reqIdArr = [];
+				for(var i in infos){
+					//console.log('ssn.email'+ssn.username+'****'+infos[i].userid+'*****'+infos[i].friendid);
+					if(infos[i].userid !== username){
+						reqIdArr.push(infos[i].userid);	
+					}
+					if(infos[i].friendid !== username){
+						reqIdArr.push(infos[i].friendid);	
+					}
+				}
+				//userInfo.find({username: {$in : reqIdArr}, appearance: "online"}, function(error, docs){
+				userInfo.find({username: {$in : reqIdArr}}, function(error, docs){
+					if(error){
+						console.log("Error"+error);
+					}else{
+						res.send(docs);
+					}
+				});
 			}
 		});
 	});
 	
 	app.post('/api/getAllOnLineFriendsDetails/', function(req, res) {	
 		// Getting all the online friends
-		console.log('req.body.reqidarr>>>'+req.body.reqidarr);
 		userInfo.find({_id: {$in : req.body.reqidarr}, appearance: "online"}, function(error, infos){
 			if(error){
 				console.log("Error"+error);
@@ -159,6 +185,5 @@ module.exports = function(app) {
 	});
 }
 
-global.nodeEventer.subscribe('ON_VIDEO_PUBLISH', function(data){
-	//usedSockets[data.userid].emit("ON_VIDEO_PUBLISH", data.videoPath);
-});
+/*	//usedSockets[data.userid].emit("ON_VIDEO_PUBLISH", data.videoPath);
+});*/

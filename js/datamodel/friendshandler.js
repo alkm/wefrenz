@@ -17,12 +17,10 @@ module.exports = function(app) {
 	
 	app.post('/api/setFriendInfo/', function(req, res) {		
 		// create a friend info, information comes from AJAX request from Angular
-		console.log("req.body.friendInfo.friendID"+req.body.friendInfo.friendId);
-		console.log("req.body.friendInfo.userID"+req.body.friendInfo.userId);
 		friendRelationInfo.create({
-			userid : req.body.friendInfo.userId,
-			friendid : req.body.friendInfo.friendId,
-			requester : req.body.friendInfo.userId,
+			userid : req.body.userid,
+			friendid : req.body.friendid,
+			requester : req.body.userid,
 			requeststatus: "pending",
 			blockedby : "",
 			blockedto : "",
@@ -33,7 +31,10 @@ module.exports = function(app) {
 			if (err){
 				res.send(err);
 			}else{
-				res.send("sent");
+				var obj = {};
+				obj.agent = "none";
+				obj.status = "sent";
+				res.send(obj);
 
 			}
 		});
@@ -95,13 +96,11 @@ module.exports = function(app) {
 	app.post('/api/getFriendReq/', function(req, res) {	
 		//This is happenoing in home page
 		// check a friend info, information comes from AJAX request from Angular
-		console.log(">>>>;;;;;"+req.body.userid);
 		friendRelationInfo.find({friendid : req.body.userid , requeststatus : "pending", requester: { $ne: req.body.userid }} 
 			, function(err, infos) {
 			if (err){
 				res.send(err);
 			}else{
-				console.log("infos"+infos);
 				res.send(infos);
 			}
 		});
@@ -139,9 +138,8 @@ module.exports = function(app) {
 	app.post('/api/getRequestDetails/', function(req, res) {	
 		//This is happenoing in home page
 		// check a friend info, information comes from AJAX request from Angular
-		console.log("Req All>>"+req.body.reqarr);
 		var reqArr = req.body.reqarr;
-		userInfo.find({_id : {$in : reqArr}} 
+		userInfo.find({username : {$in : reqArr}} 
 			, function(err, infos) {
 			if (err){
 				res.send(err);
@@ -150,7 +148,6 @@ module.exports = function(app) {
 					if(error){
 						console.log("Error"+err);
 					}else{
-						//console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&yuipee");
 						res.send(infos);
 					}
 				});
@@ -160,12 +157,24 @@ module.exports = function(app) {
 	
 	app.post('/api/confirmFriendReq/', function(req, res) {	
 		// Confirm friend and changing the status
-		console.log("1"+req.body.reqinfo.friendId+"2"+req.body.reqinfo.userId);
-		friendRelationInfo.update({userid: req.body.reqinfo.friendId, friendid: req.body.reqinfo.userId}, { $set: {requeststatus: "confirmed"}}, function(error, docs){
+		friendRelationInfo.update({userid: req.body.friendid, friendid: req.body.userid}, { $set: {requeststatus: "confirmed"}}, function(error, docs){
 			if(error){
 				console.log("Error"+error);
 			}else{
-				res.send("confirm");
+				var obj = {};
+				obj.requester = req.body.friendid;
+				obj.status = "confirmed";
+				res.send(obj);
+			}
+		});
+	});
+	app.post('/api/ignoreFriendReq/', function(req, res) {	
+		// Confirm friend and changing the status
+		friendRelationInfo.update({userid: req.body.reqinfo.friendId, friendid: req.body.reqinfo.userId}, { $set: {requeststatus: "ignored"}}, function(error, docs){
+			if(error){
+				console.log("Error"+error);
+			}else{
+				res.send("ignored");
 			}
 		});
 	});
@@ -189,7 +198,6 @@ module.exports = function(app) {
 			if(error){
 				console.log("Error"+error);
 			}else{
-				console.log("random friends suggestion"+infos);
 				res.send(infos);
 			}
 		});

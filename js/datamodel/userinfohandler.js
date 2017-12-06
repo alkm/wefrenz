@@ -99,7 +99,6 @@ module.exports = function(app) {
 		});
 	});
 	app.post('/api/logIn', function(req, res) {
-		ssn = req.session;
 		userInfo.collection.ensureIndex({fullname: "text"}, function(error) {});
 		try{
 			signInInfo.findOne({username: req.body.email}, function(err, users){
@@ -116,7 +115,8 @@ module.exports = function(app) {
 								}else{
 									//req.mySession.username = info.username;
 									//req.mySession.userid = info._id;
-									ssn.email = info.username;
+									ssn = req.session;
+									ssn.username = info.username;
 									res.json({"status": "success","message": "Welcome "+info.fullname, "info": info});
 								}
 							});
